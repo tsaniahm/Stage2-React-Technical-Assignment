@@ -13,49 +13,81 @@ export default function App() {
 
   const addToCart = (id) => {
 
-        menus.map((menu) => {
+    menus.map((menu) => {
 
-          if (menu.id === id) {
-
-            cart.push({ id: menu.id, name: menu.name, price: menu.price, amount: 1 })
-
-            //nampilin total harga
-            setTotal(total + menu.price)
-
+      if (menu.id === id) {
+        
+        const existCart = cart.find((element) => {
+          if(element.id === id){
+            return element
           }
+        });
 
-        })
+        if (!existCart) {
+          setCart([...cart, { id: menu.id, name: menu.name, price: menu.price, amount: 1 }])
+        } else {
+          increaseCartAmount(id)
+        }
+      }
+
+    })
 
   };
 
   const decreaseCartAmount = (id) => {
-    cart.map((element) => {
-      console.log(element)
+    const currentCart = cart.find((element) => {
       if (element.id === id) {
-        console.log(element.amount - 1)
+        return element
       }
     })
+
+    const existCart = cart.filter((element) => {
+      if (element.id !== id) {
+        return element
+      }
+    })
+
+    currentCart.amount = currentCart.amount - 1
+    if (currentCart.amount < 1) {
+      setCart(existCart)
+    } else {
+      setCart([...existCart, currentCart])
+    }
+
 
   };
 
   const increaseCartAmount = (id) => {
-    cart.map((element) => {
 
+    const currentCart = cart.find((element) => {
       if (element.id === id) {
-        //setCart([...element.amount, element.amount + 1])
+        return element
       }
     })
+
+    const existCart = cart.filter((element) => {
+      if (element.id !== id) {
+        return element
+      }
+    })
+    
+    currentCart.amount = currentCart.amount + 1
+    setCart([...existCart, currentCart])
 
   };
 
   useEffect(() => {
     let totalamount = 0;
-    cart.map((c) => {
-      totalamount = totalamount + c.amount;
+    let totalPrice = 0;
+
+    cart.map((element) => {
+      totalamount = totalamount + element.amount;
+      totalPrice = totalPrice + (element.price * element.amount);
     })
 
     setPurchasedItem(purchasedItem => totalamount)
-  }, [total]) // harusnya cart cuman cart blm main setCart jadi elum bisa ketemu perubahannya
+    setTotal(total => totalPrice)
+  }, [cart])
 
   return (
     <div className="bg-secondary">

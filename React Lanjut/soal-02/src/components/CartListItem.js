@@ -35,8 +35,6 @@ const CartListItem = ({ name, price, amount, increase, decrease }) => {
 
   CartListItem.defaultProps = {
     name: "",
-    price: "",
-    amount: "",
     increase: () => console.log(""),
     decrease: () => console.log(""),
   }

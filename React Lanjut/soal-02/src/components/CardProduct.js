@@ -37,7 +37,6 @@ const CardProduct = ({ name, image, price, addToCart }) => {
 
   CardProduct.defaultProps = {
     name: "",
-    price: "",
     image: "",
     addToCart: () => {return null},
   }
