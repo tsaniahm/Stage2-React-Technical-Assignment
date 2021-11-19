@@ -46,6 +46,7 @@ export default function App() {
         return element
       }
     })
+    console.log(cart)
 
     currentCart.amount = currentCart.amount - 1
     if (currentCart.amount < 1) {
@@ -70,7 +71,7 @@ export default function App() {
         return element
       }
     })
-    
+
     currentCart.amount = currentCart.amount + 1
     setCart([...existCart, currentCart])
 
